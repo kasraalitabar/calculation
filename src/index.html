@@ -9,24 +9,26 @@
 </head>
 <body class="flex items-center justify-center h-screen bg-gray-200">
     <div class="calc bg-white p-5 rounded-lg shadow-lg w-72" >
-        <input type="text" id="display" class="w-full h-12 text-right text-xl p-2 border border-gray-300 rounded mb-4"  >
+        <div class="display bg-amber-50 m-0 p-6">
+            <h1>0</h1>
+        </div>
         <div class="buttons grid grid-cols-4 gap-2">
-            <button value="0" class="btn">0</button>
-            <button value="1" class="btn">1</button>
-            <button value="2" class="btn">2</button>
-            <button value="3" class="btn">3</button>
-            <button value="4" class="btn">4</button>
-            <button value="5" class="btn">5</button>
-            <button value="6" class="btn">6</button>
-            <button value="7" class="btn">7</button>
-            <button value="8" class="btn">8</button>
-            <button value="9" class="btn">9</button>
-            <button value="+" class="amal">+</button>
-            <button value="_" class="amal">_</button>
-            <button value="*" class="amal">*</button>
-            <button value="?" class="amal">/</button>
-            <button value="" class="equal">=</button>
-            <button value="" class="clean text-red-500">C</button>
+            <button value="0">0</button>
+            <button value="1">1</button>
+            <button value="2">2</button>
+            <button value="3">3</button>
+            <button value="4">4</button>
+            <button value="5">5</button>
+            <button value="6">6</button>
+            <button value="7">7</button>
+            <button value="8">8</button>
+            <button value="9">9</button>
+            <button class="operator" value="+">+</button>
+            <button class="operator" value="-">-</button>
+            <button class="operator" value="*">×</button>
+            <button class="operator" value="/">÷</button>
+            <button id="clear">C</button>
+            <button class="equal-sign operator" value="=">=</button>
         </div>
     </div>
     
