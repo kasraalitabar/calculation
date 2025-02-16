@@ -1,37 +1,37 @@
-const display = document.getElementById("display");
-const Btns = document.querySelectorAll('button');
-const clearBtn = document.getElementById('clear');
-let firstValue =null;
+const Display = document.querySelector('h1');
+const inputBtns = document.querySelectorAll('button');
+const clearBtn = document.getElementById('clear-btn');
+
+let firstValue = 0;
 let operatorValue = '';
-let awaitingNextValue = false;
+let NextValue = false;
 
-
-
-function show(number){
+function sendNumberValue(number){
     // Replace current display value if first value is entered
-    if(awaitingNextValue){
-        display.textContent = number;
-        awaitingNextValue = false;
+    if(NextValue){
+        Display.textContent = number;
+        NextValue = false;
     }else{
         // if current display value is 0 , replace it , if not add number
-        display.value = display.value ==="0" ? number :display.value + number;
+        const displayValue = Display.textContent;
+        Display.textContent = displayValue === '0' ? number : displayValue + number;
     }
 }
 
+
+// Calculate first and second values depending on operator
 const calculate = {
     '/': (firstNumber , secondNumber) => firstNumber / secondNumber ,
-
     '*': (firstNumber , secondNumber) => firstNumber * secondNumber ,
-
     '+': (firstNumber , secondNumber) => firstNumber + secondNumber ,
-
     '-': (firstNumber , secondNumber) => firstNumber - secondNumber ,
+    '=': (firstNumber , secondNumber) => secondNumber
 }
 
-function useOperator(operator){
-    const currentValue = Number(display.value);
+ function useOperator(operator){
+    const currentValue = Number(Display.textContent);
     // Prevent multiple operators
-    if(operatorValue && awaitingNextValue) {
+    if(operatorValue && NextValue) {
         operatorValue = operator;
         return;
     }
@@ -40,30 +40,31 @@ function useOperator(operator){
         firstValue = currentValue;
     }else{
         const calculation = calculate[operatorValue](firstValue, currentValue);
-        display.textContent = calculation;
+        Display.textContent = calculation;
         firstValue = calculation;
     }
     // Ready for next value, store operator
-    awaitingNextValue=true;
+    NextValue=true;
     operatorValue = operator;
  }
- Btns.forEach((button) =>{
-    const value =button.value;
-
-    if(!isNaN(value)){
-        button.addEventListener("click",()=>show(value));
-    } else if (value in calculate){
-        button.addEventListener("click",()=> useOperator(value));
-    }else if (value ==="="){
-        button.addEventListener("click",()=> useOperator(operatorValue));
-        operatorValue="";
-    }else if (value === "C"){
-        button.addEventListener("click", resetAll)
+// Add Event Listeners for numbers , operators , decimal buttons
+inputBtns.forEach((inputBtn) =>{
+    if(inputBtn.classList.length === 0){
+        inputBtn.addEventListener('click', () => sendNumberValue(inputBtn.value));
+    }else if(inputBtn.classList.contains('operator')){
+        inputBtn.addEventListener('click', () => useOperator(inputBtn.value));
+    }else if(inputBtn.classList.contains('decimal')){
+        inputBtn.addEventListener('click',() => addDecimal());
     }
 });
+
+//Reset all values, display
 function resetAll(){
-    display.value = "0";
+    Display.textContent = 0;
      firstValue = 0;
      operatorValue = '';
-     awaitingNextValue = false;
+     NextValue = false;
 }
+
+// Add Event Listener for reset display numbers
+clearBtn.addEventListener('click', resetAll);
