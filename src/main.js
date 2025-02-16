@@ -1,9 +1,10 @@
-const display = document.getElementsByClassName("display");
+const display = document.getElementById("display");
 const Btns = document.querySelectorAll('button');
 const clearBtn = document.getElementById('clear');
-let main =0;
+let firstValue =null;
 let operatorValue = '';
 let awaitingNextValue = false;
+
 
 
 function show(number){
@@ -13,11 +14,9 @@ function show(number){
         awaitingNextValue = false;
     }else{
         // if current display value is 0 , replace it , if not add number
-        const displayValue = display.textContent;
-        display.textContent = displayValue === '0' ? number : displayValue + number;
+        display.value = display.value ==="0" ? number :display.value + number;
     }
 }
-
 
 const calculate = {
     '/': (firstNumber , secondNumber) => firstNumber / secondNumber ,
@@ -27,12 +26,10 @@ const calculate = {
     '+': (firstNumber , secondNumber) => firstNumber + secondNumber ,
 
     '-': (firstNumber , secondNumber) => firstNumber - secondNumber ,
-
-    '=': (firstNumber , secondNumber) => secondNumber
 }
 
 function useOperator(operator){
-    const currentValue = Number(display.textContent);
+    const currentValue = Number(display.value);
     // Prevent multiple operators
     if(operatorValue && awaitingNextValue) {
         operatorValue = operator;
@@ -50,17 +47,23 @@ function useOperator(operator){
     awaitingNextValue=true;
     operatorValue = operator;
  }
- Btns.forEach((inputBtn) =>{
-    if(inputBtn.classList.length === 0){
-        inputBtn.addEventListener('click', () => show(inputBtn.value));
-    }else if(inputBtn.classList.contains('operator')){
-        inputBtn.addEventListener('click', () => useOperator(inputBtn.value));
+ Btns.forEach((button) =>{
+    const value =button.value;
+
+    if(!isNaN(value)){
+        button.addEventListener("click",()=>show(value));
+    } else if (value in calculate){
+        button.addEventListener("click",()=> useOperator(value));
+    }else if (value ==="="){
+        button.addEventListener("click",()=> useOperator(operatorValue));
+        operatorValue="";
+    }else if (value === "C"){
+        button.addEventListener("click", resetAll)
     }
 });
 function resetAll(){
-    calculatorDisplay.textContent = 0;
+    display.value = "0";
      firstValue = 0;
      operatorValue = '';
      awaitingNextValue = false;
 }
-clearBtn.addEventListener('click', resetAll);
