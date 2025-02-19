@@ -1,4 +1,4 @@
-const Display = document.querySelector('h1');
+const Display = document.getElementById("display");
 const inputBtns = document.querySelectorAll('button');
 const clearBtn = document.getElementById('clear-btn');
 let NextValue = false;
@@ -15,11 +15,11 @@ const calculate = {
 
 function sendNumber(number){
     if(NextValue){
-        Display.textContent = number;
+        Display.value = number;
         NextValue = false;
     }else{
-        const displayValue = Display.textContent;
-        Display.textContent = displayValue === '0' ? number : displayValue + number;
+        const displayValue = Display.value;
+        Display.value = displayValue === '0' ? number : displayValue + number;
     }
 }
 
@@ -33,7 +33,7 @@ inputBtns.forEach((inputBtn) =>{
 
 
  function operator(operator){
-    const currentValue = Number(Display.textContent);
+    const currentValue = Number(Display.value);
     if(!defult) {
         defult=currentValue;
         operatorValue = operator;
@@ -41,7 +41,7 @@ inputBtns.forEach((inputBtn) =>{
         return;
     }if(operatorValue){
         const calculation = calculate[operatorValue](defult, currentValue);
-        Display.textContent = calculation;
+        Display.value = calculation;
         defult = calculation;
     }
     operatorValue = operator;
@@ -50,7 +50,7 @@ inputBtns.forEach((inputBtn) =>{
  
 
 function resetAll(){
-    Display.textContent = 0;
+    Display.value = 0;
      defult = 0;
      NextValue = false;
      operatorValue = '';
