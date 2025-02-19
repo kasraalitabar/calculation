@@ -14,7 +14,7 @@ const calculate = {
     '=': (firstNumber , secondNumber) => secondNumber
 }
 
-function sendNumberValue(number){
+function sendNumber(number){
     if(NextValue){
         Display.textContent = number;
         NextValue = false;
@@ -42,7 +42,7 @@ function sendNumberValue(number){
  }
 inputBtns.forEach((inputBtn) =>{
     if(inputBtn.classList.length === 0){
-        inputBtn.addEventListener('click', () => sendNumberValue(inputBtn.value));
+        inputBtn.addEventListener('click', () => sendNumber(inputBtn.value));
     }else if(inputBtn.classList.contains('operator')){
         inputBtn.addEventListener('click', () => useOperator(inputBtn.value));
     }else if(inputBtn.classList.contains('decimal')){
