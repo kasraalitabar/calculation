@@ -2,24 +2,10 @@ const Display = document.querySelector('h1');
 const inputBtns = document.querySelectorAll('button');
 const clearBtn = document.getElementById('clear-btn');
 
-let firstValue = 0;
+let defult = 0;
 let operatorValue = '';
 let NextValue = false;
 
-function sendNumberValue(number){
-    // Replace current display value if first value is entered
-    if(NextValue){
-        Display.textContent = number;
-        NextValue = false;
-    }else{
-        // if current display value is 0 , replace it , if not add number
-        const displayValue = Display.textContent;
-        Display.textContent = displayValue === '0' ? number : displayValue + number;
-    }
-}
-
-
-// Calculate first and second values depending on operator
 const calculate = {
     '/': (firstNumber , secondNumber) => firstNumber / secondNumber ,
     '*': (firstNumber , secondNumber) => firstNumber * secondNumber ,
@@ -28,26 +14,32 @@ const calculate = {
     '=': (firstNumber , secondNumber) => secondNumber
 }
 
+function sendNumberValue(number){
+    if(NextValue){
+        Display.textContent = number;
+        NextValue = false;
+    }else{
+        const displayValue = Display.textContent;
+        Display.textContent = displayValue === '0' ? number : displayValue + number;
+    }
+}
+
  function useOperator(operator){
     const currentValue = Number(Display.textContent);
-    // Prevent multiple operators
     if(operatorValue && NextValue) {
         operatorValue = operator;
         return;
     }
-    // Assign firstValue if no value
-    if(!firstValue){
-        firstValue = currentValue;
+    if(!defult){
+        defult = currentValue;
     }else{
-        const calculation = calculate[operatorValue](firstValue, currentValue);
+        const calculation = calculate[operatorValue](defult, currentValue);
         Display.textContent = calculation;
-        firstValue = calculation;
+        defult = calculation;
     }
-    // Ready for next value, store operator
     NextValue=true;
     operatorValue = operator;
  }
-// Add Event Listeners for numbers , operators , decimal buttons
 inputBtns.forEach((inputBtn) =>{
     if(inputBtn.classList.length === 0){
         inputBtn.addEventListener('click', () => sendNumberValue(inputBtn.value));
@@ -58,13 +50,10 @@ inputBtns.forEach((inputBtn) =>{
     }
 });
 
-//Reset all values, display
 function resetAll(){
     Display.textContent = 0;
-     firstValue = 0;
+     defult = 0;
      operatorValue = '';
      NextValue = false;
 }
-
-// Add Event Listener for reset display numbers
 clearBtn.addEventListener('click', resetAll);
