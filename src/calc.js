@@ -1,17 +1,16 @@
 const Display = document.querySelector('h1');
 const inputBtns = document.querySelectorAll('button');
 const clearBtn = document.getElementById('clear-btn');
-
+let NextValue = false;
 let defult = 0;
 let operatorValue = '';
-let NextValue = false;
 
 const calculate = {
-    '/': (firstNumber , secondNumber) => firstNumber / secondNumber ,
-    '*': (firstNumber , secondNumber) => firstNumber * secondNumber ,
-    '+': (firstNumber , secondNumber) => firstNumber + secondNumber ,
-    '-': (firstNumber , secondNumber) => firstNumber - secondNumber ,
-    '=': (firstNumber , secondNumber) => secondNumber
+    '/': (first , second) => first / second ,
+    '*': (first , second) => first * second ,
+    '+': (first , second) => first + second ,
+    '-': (first , second) => first - second ,
+    '=': (first , second) => second,
 }
 
 function sendNumber(number){
@@ -24,36 +23,36 @@ function sendNumber(number){
     }
 }
 
- function useOperator(operator){
-    const currentValue = Number(Display.textContent);
-    if(operatorValue && NextValue) {
-        operatorValue = operator;
-        return;
-    }
-    if(!defult){
-        defult = currentValue;
-    }else{
-        const calculation = calculate[operatorValue](defult, currentValue);
-        Display.textContent = calculation;
-        defult = calculation;
-    }
-    NextValue=true;
-    operatorValue = operator;
- }
 inputBtns.forEach((inputBtn) =>{
     if(inputBtn.classList.length === 0){
         inputBtn.addEventListener('click', () => sendNumber(inputBtn.value));
     }else if(inputBtn.classList.contains('operator')){
-        inputBtn.addEventListener('click', () => useOperator(inputBtn.value));
-    }else if(inputBtn.classList.contains('decimal')){
-        inputBtn.addEventListener('click',() => addDecimal());
+        inputBtn.addEventListener('click', () => operator(inputBtn.value));
     }
 });
+
+
+ function operator(operator){
+    const currentValue = Number(Display.textContent);
+    if(!defult) {
+        defult=currentValue;
+        operatorValue = operator;
+        NextValue=true
+        return;
+    }if(operatorValue){
+        const calculation = calculate[operatorValue](defult, currentValue);
+        Display.textContent = calculation;
+        defult = calculation;
+    }
+    operatorValue = operator;
+    NextValue=true;
+}
+ 
 
 function resetAll(){
     Display.textContent = 0;
      defult = 0;
-     operatorValue = '';
      NextValue = false;
+     operatorValue = '';
 }
 clearBtn.addEventListener('click', resetAll);
