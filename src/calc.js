@@ -1,17 +1,23 @@
-const Display = document.getElementById("display");
+const Display = document.getElementById('display');
 const inputBtns = document.querySelectorAll('button');
 const clearBtn = document.getElementById('clear-btn');
 let NextValue = false;
 let defult = 0;
 let operatorValue = '';
 
-const calculate = {
-    '/': (first , second) => first / second ,
-    '*': (first , second) => first * second ,
-    '+': (first , second) => first + second ,
-    '-': (first , second) => first - second ,
-    '=': (first , second) => second,
+function plus(first,second){
+    return first+ second;
 }
+function minus(first,second){
+    return first -second;
+}
+function multiply(first,second){
+    return first * second
+}
+function divide(first,second){
+    return first/ second;
+}
+
 
 function sendNumber(number){
     if(NextValue){
@@ -36,13 +42,18 @@ inputBtns.forEach((inputBtn) =>{
     const currentValue = Number(Display.value);
     if(!defult) {
         defult=currentValue;
-        operatorValue = operator;
-        NextValue=true
-        return;
-    }if(operatorValue){
-        const calculation = calculate[operatorValue](defult, currentValue);
-        Display.value = calculation;
-        defult = calculation;
+        
+    }else{
+        if(operatorValue === "+"){
+            defult=plus(defult,currentValue);
+        } else if(operatorValue ==="-"){
+            defult=minus(defult,currentValue);
+        }else if(operatorValue ==="*"){
+            defult=multiply(defult,currentValue);
+        }else if(operatorValue ==="/"){
+            defult=divide(defult,currentValue);
+        }
+        Display.value=defult
     }
     operatorValue = operator;
     NextValue=true;
