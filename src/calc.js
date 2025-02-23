@@ -3,7 +3,7 @@ const inputBtns = document.querySelectorAll('button');
 const clearBtn = document.getElementById('clear-btn');
 let NextValue = false;
 let defult = 0;
-let operatorValue = '';
+let operatorDefult = '';
 
 function plus(first,second){
     return first+ second;
@@ -44,18 +44,18 @@ inputBtns.forEach((inputBtn) =>{
         defult=currentValue;
         
     }else{
-        if(operatorValue === "+"){
+        if(operatorDefult === "+"){
             defult=plus(defult,currentValue);
-        } else if(operatorValue ==="-"){
+        } else if(operatorDefult ==="-"){
             defult=minus(defult,currentValue);
-        }else if(operatorValue ==="*"){
+        }else if(operatorDefult ==="*"){
             defult=multiply(defult,currentValue);
-        }else if(operatorValue ==="/"){
+        }else if(operatorDefult ==="/"){
             defult=divide(defult,currentValue);
         }
         Display.value=defult
     }
-    operatorValue = operator;
+    operatorDefult = operator;
     NextValue=true;
 }
  
@@ -64,6 +64,6 @@ function resetAll(){
     Display.value = 0;
      defult = 0;
      NextValue = false;
-     operatorValue = '';
+     operatorDefult = '';
 }
 clearBtn.addEventListener('click', resetAll);
